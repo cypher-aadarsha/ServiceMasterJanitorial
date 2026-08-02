@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a commercial lobby floor before cleaning: dull, streaked and soiled.">
+  <title>Commercial lobby floor before service</title>
+  <defs>
+    <linearGradient id="b-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7f8288"/>
+      <stop offset="100%" stop-color="#63666d"/>
+    </linearGradient>
+    <linearGradient id="b-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5f6165"/>
+      <stop offset="40%" stop-color="#6e6f71"/>
+      <stop offset="100%" stop-color="#84837f"/>
+    </linearGradient>
+    <radialGradient id="b-glow" cx="0.5" cy="0.05" r="0.7">
+      <stop offset="0%" stop-color="#b9b8b2" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#b9b8b2" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Soil: fractal noise squashed into blotches, tinted warm grey. -->
+    <filter id="b-grime" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.007 0.018" numOctaves="4" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0 0 0 0 0.30
+                0 0 0 0 0.27
+                0 0 0 0 0.23
+                0 0 0 0.85 -0.12"/>
+    </filter>
+
+    <clipPath id="b-floorclip">
+      <rect x="0" y="392" width="1200" height="508"/>
+    </clipPath>
+  </defs>
+
+  <!-- Full-bleed base: every pixel is painted, so `object-cover` can crop to
+       any aspect ratio without exposing empty canvas. -->
+  <rect width="1200" height="900" fill="#6e6f71"/>
+
+  <!-- Wall -->
+  <rect width="1200" height="392" fill="url(#b-wall)"/>
+  <rect width="1200" height="392" fill="url(#b-glow)"/>
+
+  <!-- Scuffed baseboard -->
+  <rect y="368" width="1200" height="26" fill="#54575e"/>
+  <rect y="368" width="1200" height="4" fill="#45484f"/>
+  <g opacity="0.55" fill="#3d4046">
+    <rect x="120" y="376" width="90" height="9" rx="4"/>
+    <rect x="470" y="379" width="140" height="7" rx="3"/>
+    <rect x="880" y="375" width="70" height="10" rx="4"/>
+  </g>
+
+  <!-- Floor -->
+  <rect y="392" width="1200" height="508" fill="url(#b-floor)"/>
+
+  <g clip-path="url(#b-floorclip)">
+    <!-- Perspective tile grid, low contrast because the finish has gone flat -->
+    <g stroke="#54565a" stroke-width="1.8" opacity="0.5">
+      <line x1="600" y1="392" x2="-900" y2="900"/>
+      <line x1="600" y1="392" x2="-380" y2="900"/>
+      <line x1="600" y1="392" x2="80" y2="900"/>
+      <line x1="600" y1="392" x2="380" y2="900"/>
+      <line x1="600" y1="392" x2="600" y2="900"/>
+      <line x1="600" y1="392" x2="820" y2="900"/>
+      <line x1="600" y1="392" x2="1120" y2="900"/>
+      <line x1="600" y1="392" x2="1580" y2="900"/>
+      <line x1="600" y1="392" x2="2100" y2="900"/>
+    </g>
+    <g stroke="#54565a" stroke-width="1.8" opacity="0.45">
+      <line x1="0" y1="438" x2="1200" y2="438"/>
+      <line x1="0" y1="500" x2="1200" y2="500"/>
+      <line x1="0" y1="582" x2="1200" y2="582"/>
+      <line x1="0" y1="692" x2="1200" y2="692"/>
+      <line x1="0" y1="838" x2="1200" y2="838"/>
+    </g>
+
+    <!-- Worn traffic lane down the centre -->
+    <polygon points="600,392 340,900 860,900" fill="#4a4c50" opacity="0.34"/>
+
+    <!-- Soil -->
+    <rect y="392" width="1200" height="508" filter="url(#b-grime)" opacity="0.8"/>
+
+    <!-- Discrete stains -->
+    <g fill="#443f37" opacity="0.4">
+      <ellipse cx="330" cy="690" rx="86" ry="30"/>
+      <ellipse cx="905" cy="775" rx="120" ry="38"/>
+      <ellipse cx="640" cy="556" rx="52" ry="17"/>
+      <ellipse cx="150" cy="855" rx="150" ry="44"/>
+    </g>
+
+    <!-- Dried mop streaks -->
+    <g stroke="#6a675f" stroke-width="10" opacity="0.28" stroke-linecap="round" fill="none">
+      <path d="M-40 636 q 300 -34 600 0 t 680 -6"/>
+      <path d="M-40 740 q 340 40 640 2 t 640 10"/>
+      <path d="M-40 846 q 300 -46 620 -4 t 660 6"/>
+    </g>
+  </g>
+</svg>

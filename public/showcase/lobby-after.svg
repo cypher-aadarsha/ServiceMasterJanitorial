@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of the same commercial lobby floor after cleaning: bright, polished and reflective.">
+  <title>Commercial lobby floor after service</title>
+  <defs>
+    <linearGradient id="a-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6f9fc"/>
+      <stop offset="100%" stop-color="#dde6f1"/>
+    </linearGradient>
+    <linearGradient id="a-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bccee4"/>
+      <stop offset="40%" stop-color="#d5e1f0"/>
+      <stop offset="100%" stop-color="#eff4fa"/>
+    </linearGradient>
+    <radialGradient id="a-glow" cx="0.5" cy="0.02" r="0.7">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Specular pool: the ceiling light reflected in a polished finish. -->
+    <radialGradient id="a-spec" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="a-sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <clipPath id="a-floorclip">
+      <rect x="0" y="392" width="1200" height="508"/>
+    </clipPath>
+  </defs>
+
+  <!-- Full-bleed base — see the note in the "before" render. -->
+  <rect width="1200" height="900" fill="#dfe8f3"/>
+
+  <!-- Wall -->
+  <rect width="1200" height="392" fill="url(#a-wall)"/>
+  <rect width="1200" height="392" fill="url(#a-glow)"/>
+
+  <!-- Clean baseboard, crisp edge -->
+  <rect y="368" width="1200" height="26" fill="#b6c5d9"/>
+  <rect y="368" width="1200" height="3" fill="#8ba1bd"/>
+
+  <!-- Floor -->
+  <rect y="392" width="1200" height="508" fill="url(#a-floor)"/>
+
+  <g clip-path="url(#a-floorclip)">
+    <!-- Perspective tile grid: crisp, because the finish is restored -->
+    <g stroke="#9cb2cd" stroke-width="1.6" opacity="0.8">
+      <line x1="600" y1="392" x2="-900" y2="900"/>
+      <line x1="600" y1="392" x2="-380" y2="900"/>
+      <line x1="600" y1="392" x2="80" y2="900"/>
+      <line x1="600" y1="392" x2="380" y2="900"/>
+      <line x1="600" y1="392" x2="600" y2="900"/>
+      <line x1="600" y1="392" x2="820" y2="900"/>
+      <line x1="600" y1="392" x2="1120" y2="900"/>
+      <line x1="600" y1="392" x2="1580" y2="900"/>
+      <line x1="600" y1="392" x2="2100" y2="900"/>
+    </g>
+    <g stroke="#9cb2cd" stroke-width="1.6" opacity="0.75">
+      <line x1="0" y1="438" x2="1200" y2="438"/>
+      <line x1="0" y1="500" x2="1200" y2="500"/>
+      <line x1="0" y1="582" x2="1200" y2="582"/>
+      <line x1="0" y1="692" x2="1200" y2="692"/>
+      <line x1="0" y1="838" x2="1200" y2="838"/>
+    </g>
+
+    <!-- Reflected ceiling light down the centre line -->
+    <ellipse cx="600" cy="660" rx="360" ry="260" fill="url(#a-spec)"/>
+    <ellipse cx="600" cy="460" rx="130" ry="44" fill="#ffffff" opacity="0.6"/>
+
+    <!-- Vertical reflection columns: the giveaway of a burnished floor -->
+    <g opacity="0.55">
+      <rect x="196" y="392" width="54" height="508" fill="url(#a-sheen)"/>
+      <rect x="928" y="392" width="66" height="508" fill="url(#a-sheen)"/>
+    </g>
+
+    <!-- Wet-look highlight arcs following the burnisher path -->
+    <g stroke="#ffffff" stroke-width="8" opacity="0.5" stroke-linecap="round" fill="none">
+      <path d="M-40 652 q 320 -22 640 0 t 640 -8"/>
+      <path d="M-40 782 q 340 24 640 0 t 640 6"/>
+    </g>
+  </g>
+
+  <!-- Crisp edge where floor meets baseboard -->
+  <line x1="0" y1="393" x2="1200" y2="393" stroke="#ffffff" stroke-width="2" opacity="0.9"/>
+</svg>
