@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/components/ui/Reveal";
+import { DrawRule } from "@/components/ui/DrawRule";
 
 /**
  * MEASURE RAIL — the signature section header.
@@ -41,13 +42,7 @@ export function SectionHeading({
     >
       <Reveal>
         <div className={cn("flex items-center gap-3", align === "center" && "justify-center")}>
-          <span
-            aria-hidden="true"
-            className={cn(
-              "measure-rule h-8 w-px shrink-0",
-              dark && "opacity-80",
-            )}
-          />
+          <DrawRule tone={dark ? "dark" : "light"} />
           <span
             className={cn(
               "font-mono text-[0.6875rem] font-medium uppercase tracking-[0.22em]",

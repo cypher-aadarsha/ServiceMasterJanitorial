@@ -2,7 +2,7 @@ import { HiArrowRight, HiOutlinePhone } from "react-icons/hi2";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { SITE } from "@/content/site";
+import { ROUTES, SITE } from "@/content/site";
 
 /**
  * CTA BANNER
@@ -76,7 +76,7 @@ export function CtaBanner() {
             </p>
 
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button href="#quote" variant="onDark">
+              <Button href={ROUTES.contact} variant="onDark">
                 Book a free walkthrough
                 <HiArrowRight
                   aria-hidden="true"

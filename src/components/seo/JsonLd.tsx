@@ -95,15 +95,6 @@ export function JsonLd() {
         publisher: { "@id": businessId },
         inLanguage: "en-US",
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${SITE.url}/#faq`,
-        mainEntity: FAQS.map((faq) => ({
-          "@type": "Question",
-          name: faq.q,
-          acceptedAnswer: { "@type": "Answer", text: faq.a },
-        })),
-      },
     ],
   };
 
@@ -114,6 +105,37 @@ export function JsonLd() {
       // surface here. JSON.stringify also escapes the `<` that could otherwise
       // terminate the script element early.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+    />
+  );
+}
+
+/**
+ * `FAQPage` — emitted ONLY on `/faq`, where the questions actually render.
+ *
+ * This moved out of the site-wide graph when the FAQ got its own route.
+ * Google requires FAQ markup to sit on the page whose visible content it
+ * describes; leaving it in the shared layout would have declared an FAQPage on
+ * every route, including ones with no questions on them at all.
+ *
+ * Generated from the same `FAQS` array the accordion renders, so the
+ * structured data cannot drift from the visible text.
+ */
+export function FaqJsonLd() {
+  const json = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${SITE.url}/faq#faq`,
+    mainEntity: FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: { "@type": "Answer", text: faq.a },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }}
     />
   );
 }

@@ -2,7 +2,7 @@ import { HiArrowRight, HiOutlinePhone, HiOutlineCalendarDays } from "react-icons
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Chip } from "@/components/ui/Chip";
-import { SITE } from "@/content/site";
+import { ROUTES, SITE } from "@/content/site";
 import { CompletionLogCard } from "@/components/sections/CompletionLogCard";
 
 /**
@@ -84,9 +84,7 @@ export function Hero() {
 
             <h1 className="mt-7 text-display-1 font-bold text-ink-950">
               Commercial cleaning in{" "}
-              <span className="bg-gradient-to-br from-brand-600 to-brand-900 bg-clip-text text-transparent">
-                {SITE.address.city}
-              </span>
+              <span className="accent-word">{SITE.address.city}</span>
               , documented down to the shift.
             </h1>
 
@@ -98,7 +96,7 @@ export function Hero() {
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button href="#quote">
+              <Button href={ROUTES.contact}>
                 Book a free walkthrough
                 <HiArrowRight
                   aria-hidden="true"

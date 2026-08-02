@@ -1,9 +1,10 @@
 import { HiOutlineEnvelope, HiOutlineMapPin, HiOutlinePhone } from "react-icons/hi2";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Logo } from "@/components/ui/Logo";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { SERVICES } from "@/content/services";
 import { INDUSTRIES } from "@/content/industries";
-import { NAV_LINKS, SITE } from "@/content/site";
+import { NAV_LINKS, ROUTES, SITE } from "@/content/site";
 
 /**
  * FOOTER
@@ -55,7 +56,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Brand + NAP */}
           <div className="lg:col-span-4">
-            <Logo tone="dark" />
+            <BrandLogo tone="dark" />
 
             <p className="mt-6 max-w-xs text-sm leading-relaxed">
               Commercial cleaning for offices, medical facilities, schools,
@@ -101,12 +102,12 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {SERVICES.map((service) => (
                 <li key={service.id}>
-                  <a
-                    href={`#services`}
+                  <Link
+                    href={`${ROUTES.services}#${service.id}`}
                     className="text-sm transition-colors hover:text-white"
                   >
                     {service.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -119,9 +120,12 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {INDUSTRIES.map((industry) => (
                 <li key={industry.id}>
-                  <a href="#industries" className="text-sm transition-colors hover:text-white">
+                  <Link
+                    href={`${ROUTES.industries}#${industry.id}`}
+                    className="text-sm transition-colors hover:text-white"
+                  >
                     {industry.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -134,15 +138,18 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm transition-colors hover:text-white">
+                  <Link href={link.href} className="text-sm transition-colors hover:text-white">
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
               <li>
-                <a href="#quote" className="text-sm font-semibold text-white transition-colors hover:text-brand-200">
+                <Link
+                  href={ROUTES.contact}
+                  className="text-sm font-semibold text-white transition-colors hover:text-brand-200"
+                >
                   Get a quote
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

@@ -1,10 +1,12 @@
 import { HiArrowRight, HiCheck } from "react-icons/hi2";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { stagger } from "@/lib/stagger";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SERVICES } from "@/content/services";
+import { ROUTES } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /**
@@ -48,12 +50,18 @@ import { cn } from "@/lib/cn";
  * The whole card is not a link (there are no sub-pages yet) so nothing here
  * creates a phantom tab stop — the section's single CTA sits below the grid.
  */
-export function Services() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function Services({ index = "01" }: { index?: string } = {}) {
   return (
     <Section id="services" labelledBy="services-heading">
       <Container size="wide">
         <SectionHeading
-          index="01"
+          index={index}
           eyebrow="Services"
           id="services-heading"
           title={
@@ -138,8 +146,8 @@ export function Services() {
         <Reveal delay={0.1}>
           <p className="mt-12 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-[0.9375rem] text-mist-600">
             Need something not listed here?
-            <a
-              href="#quote"
+            <Link
+              href={ROUTES.contact}
               className="group inline-flex items-center gap-1.5 font-semibold text-brand-700 underline decoration-brand-300 underline-offset-4 transition-colors hover:text-brand-800 hover:decoration-brand-600"
             >
               Tell us about your building
@@ -147,7 +155,7 @@ export function Services() {
                 aria-hidden="true"
                 className="size-4 transition-transform duration-300 ease-out-expo group-hover:translate-x-1"
               />
-            </a>
+            </Link>
           </p>
         </Reveal>
       </Container>

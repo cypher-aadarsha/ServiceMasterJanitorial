@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HiBars3, HiOutlinePhone, HiXMark, HiArrowRight } from "react-icons/hi2";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Logo } from "@/components/ui/Logo";
-import { NAV_LINKS, SITE } from "@/content/site";
+import { BrandLogo } from "@/components/ui/BrandLogo";
+import { NAV_LINKS, ROUTES, SITE } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /**
@@ -32,6 +34,15 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+
+  // Close the mobile panel whenever the route changes. Without this the panel
+  // stays open over the new page after a tap — the single most common bug in
+  // client-side-routed mobile navigation, because the click handler closes it
+  // but a back/forward navigation does not.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -127,31 +138,41 @@ export function Header() {
       >
         <Container size="wide">
           <nav aria-label="Main" className="flex h-18 items-center justify-between gap-6">
-            <a
-              href="#top"
+            <Link
+              href={ROUTES.home}
               className="rounded-lg py-1"
-              aria-label={`${SITE.name} — back to top`}
+              aria-label={`${SITE.name} — home`}
             >
-              <Logo />
-            </a>
+              <BrandLogo />
+            </Link>
 
             <ul className="hidden items-center gap-1 lg:flex">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className={cn(
-                      "relative rounded-lg px-4 py-2 text-sm font-medium text-mist-700 transition-colors hover:text-brand-700",
-                      // Underline grows from the centre on hover — a 200ms
-                      // micro-interaction that makes the nav feel responsive
-                      // without moving any layout.
-                      "after:absolute after:inset-x-4 after:bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-300 after:ease-out-expo hover:after:scale-x-100",
-                    )}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      // `aria-current` is what tells a screen-reader user which
+                      // page they are on. The underline alone conveys it to
+                      // sighted users only.
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "relative rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+                        // The underline grows from the centre on hover and stays
+                        // put on the active route — same affordance doing double
+                        // duty as hover feedback and location indicator.
+                        "after:absolute after:inset-x-4 after:bottom-1 after:h-px after:origin-center after:bg-brand-600 after:transition-transform after:duration-300 after:ease-out-expo",
+                        active
+                          ? "text-brand-700 after:scale-x-100"
+                          : "text-mist-700 hover:text-brand-700 after:scale-x-0 hover:after:scale-x-100",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="flex items-center gap-3">
@@ -167,7 +188,7 @@ export function Header() {
               {/* Visibility lives on the wrapper, not on the Button — see the
                   note in `Button.tsx` about `.inline-flex` beating `.hidden`. */}
               <div className="hidden sm:flex">
-                <Button href="#quote" size="md">
+                <Button href={ROUTES.contact} size="md">
                   Get a free quote
                   <HiArrowRight
                     aria-hidden="true"
@@ -206,22 +227,29 @@ export function Header() {
         >
           <Container size="wide" className="py-6">
             <ul className="flex flex-col">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href} className="border-b border-mist-200/80 last:border-0">
-                  <a
-                    href={link.href}
-                    onClick={close}
-                    className="flex items-center justify-between py-4 font-display text-lg font-semibold text-ink-950"
-                  >
-                    {link.label}
-                    <HiArrowRight aria-hidden="true" className="size-4 text-brand-600" />
-                  </a>
-                </li>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <li key={link.href} className="border-b border-mist-200/80 last:border-0">
+                    <Link
+                      href={link.href}
+                      onClick={close}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between py-4 font-display text-lg font-semibold",
+                        active ? "text-brand-700" : "text-ink-950",
+                      )}
+                    >
+                      {link.label}
+                      <HiArrowRight aria-hidden="true" className="size-4 text-brand-600" />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="mt-6 flex flex-col gap-3">
-              <Button href="#quote" onClick={close} className="w-full">
+              <Button href={ROUTES.contact} onClick={close} className="w-full">
                 Get a free quote
               </Button>
               <Button href={SITE.phoneHref} variant="secondary" className="w-full">

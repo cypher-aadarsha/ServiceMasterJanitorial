@@ -56,7 +56,13 @@ const MAX = 100;
  * Both images carry descriptive alt text and are readable independently of the
  * slider position, so nothing is locked behind the gesture.
  */
-export function BeforeAfter() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function BeforeAfter({ index = "05" }: { index?: string } = {}) {
   const [pos, setPos] = useState(52);
   const frameRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
@@ -102,7 +108,7 @@ export function BeforeAfter() {
     <Section id="results" labelledBy="results-heading">
       <Container size="wide">
         <SectionHeading
-          index="05"
+          index={index}
           eyebrow="Before & after"
           id="results-heading"
           align="center"

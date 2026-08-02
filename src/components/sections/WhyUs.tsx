@@ -43,14 +43,20 @@ import { DIFFERENTIATORS } from "@/content/process";
  * The ✗/✓ marks are decorative and hidden — the words "Instead of" carry the
  * meaning, so the contrast is never encoded in icon or colour alone.
  */
-export function WhyUs() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function WhyUs({ index = "03" }: { index?: string } = {}) {
   return (
     <Section id="why-us" labelledBy="why-heading">
       <Container size="wide">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <SectionHeading
-              index="03"
+              index={index}
               eyebrow="Why ServiceMaster Janitorial"
               id="why-heading"
               title="Most cleaning problems are accountability problems."

@@ -12,8 +12,12 @@ const BASE =
   "min-h-11 whitespace-nowrap disabled:pointer-events-none disabled:opacity-60";
 
 const VARIANTS: Record<Variant, string> = {
+  // `sweep` puts the site's signature specular wipe on the primary CTA. It is
+  // the one control we most want to feel alive, and reusing the card
+  // interaction here means the gesture is learned once and recognised
+  // everywhere.
   primary:
-    "bg-brand-600 text-white shadow-brand hover:bg-brand-700 hover:shadow-lift",
+    "sweep bg-brand-600 text-white shadow-brand hover:bg-brand-700 hover:shadow-lift",
   secondary:
     "bg-white text-ink-950 ring-1 ring-mist-200 shadow-soft hover:ring-brand-300 hover:shadow-card",
   ghost:

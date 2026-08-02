@@ -120,35 +120,79 @@ saturated surface on the entire page, which is what lets it read as a full stop.
 
 ## 3. Visual direction
 
-### Colour system
+### Colour system — ServiceMaster Clean franchise palette
 
 A four-family scale. Every value is a CSS custom property in `@theme`, so
-re-skinning for a franchise territory is a single-file edit.
+re-skinning is a single-file edit — no component hard-codes a colour.
 
 | Family | Role | Notes |
 |---|---|---|
-| `brand` 50–950 | ServiceMaster blue, 217° | `600` is the interactive anchor |
-| `ink` 800–950 | Deep navy surfaces + type | Never pure black — blue in the darks keeps dark sections on-brand |
-| `mist` 50–900 | Cool neutral ("light gray") | Carries a blue cast so it relates to brand |
-| `signal` 50–700 | Emerald | **Verified only.** Never decorative |
+| `brand` 50–950 | ServiceMaster Clean green | `600` is the interactive anchor |
+| `ink` 800–950 | Deep surfaces + type | Never pure black — brand hue in the darks keeps dark sections on-brand |
+| `mist` 50–900 | Neutral ("light gray") | Slight green cast; pure blue-grey beside a green brand reads as two systems |
+| `signal` 50–700 | Verification states | Now the brand green — see note below |
 
-**Contrast — measured, not assumed.** Every pairing was computed against
-WCAG 2.1 before the palette was accepted:
+> ### ⚠️ These hex values are unverified
+>
+> The brand was switched from the original blue identity to a green-led
+> ServiceMaster Clean system. **The exact values could not be confirmed against
+> an official source** — both `servicemasterclean.com` and Brandfetch refuse
+> automated requests. They are a carefully-built approximation.
+>
+> Replacing them is a paste job into `globals.css`. If the brand book supplies
+> Pantone/CMYK only, convert to sRGB **and re-run the contrast check** — brand
+> greens tuned for print regularly fail WCAG on white, and `brand-600` is used
+> for both button fills and link text.
+
+**Why `signal` stopped being a separate hue.** Under the blue identity, emerald
+was a second colour that meant *verified*. In a green-led brand that separation
+collapses — two different greens read as an inconsistency, not a semantic. So
+verification is now expressed through **form** (a check glyph in a tinted pill)
+rather than hue, and the token name is kept because the meaning is still worth
+naming at call sites.
+
+**Contrast — measured, not assumed.** Every pairing was recomputed after the
+rebrand; all 14 pass AA or better:
 
 | Pair | Ratio | Level |
 |---|---|---|
-| `mist-700` on white (body) | 10.35:1 | AAA |
-| `mist-500` on white (meta) | 4.76:1 | AA |
-| `brand-600` on white (links, buttons) | 6.70:1 | AA |
-| white on `brand-600` | 6.70:1 | AA |
-| white on `ink-950` | 18.34:1 | AAA |
-| `brand-200` on `ink-950` | 12.16:1 | AAA |
-| `signal-700` on white | 5.48:1 | AA |
+| `mist-700` on white (body) | 10.83:1 | AAA |
+| `mist-600` on white | 7.75:1 | AAA |
+| `mist-500` on white (meta) | 4.87:1 | AA |
+| `brand-600` on white (links, buttons) | 5.36:1 | AA |
+| white on `brand-600` | 5.36:1 | AA |
+| white on `brand-700` (hover) | 7.29:1 | AAA |
+| white on `ink-950` | 18.01:1 | AAA |
+| `brand-200` on `ink-950` | 12.74:1 | AAA |
+| `signal-700` on white | 7.29:1 | AAA |
 
-> The original emerald (`#059669`) failed at **3.77:1** for body text. It was
-> demoted to non-text use only (icons, dots, rules — where the 3:1 threshold
-> applies) and `signal-700` `#047857` introduced for any green **text**. This is
-> exactly the kind of failure that ships unnoticed when a palette is chosen by eye.
+> Under the previous blue palette, emerald `#059669` failed at **3.77:1** for
+> body text and had to be demoted to non-text use. That is exactly the kind of
+> failure that ships unnoticed when a palette is chosen by eye — which is why
+> the green ramp was contrast-checked *before* a single component was touched.
+
+### Logo — deliberately not bundled
+
+`ServiceMaster Clean` and its logo are registered trademarks. As a licensed
+franchisee the business may display them, **but only using approved artwork
+from the franchisor's brand portal**, under the brand book's usage rules.
+
+This codebase therefore refuses to do two things:
+
+1. **Scrape the logo from the public site.** Those assets are compressed,
+   versioned for that site, usually not the approved distribution artwork, and
+   change without notice.
+2. **Redraw the mark.** An approximation of a registered trademark is both
+   visibly wrong and a brand-compliance violation — the first thing a franchise
+   audit looks for.
+
+The earlier build's custom "sweep" symbol was removed for exactly this reason:
+an invented symbol standing in for a real mark is an *unauthorised* mark.
+
+`BrandLogo` renders the official asset the moment it exists and a neutral
+**typographic** placeholder until then — obviously provisional rather than a
+fake. Activating it is a two-line change in `content/brand.ts`; see
+`public/brand/README.md`.
 
 ### Typography — three faces, three jobs
 
@@ -211,21 +255,29 @@ background is worse than a flat panel.
 ```
 src/
 ├── app/
-│   ├── layout.tsx          fonts, metadata, skip link, providers
-│   ├── page.tsx            section composition
+│   ├── layout.tsx          fonts, metadata, skip link, Header/Footer, providers
+│   ├── template.tsx        per-navigation page transition
+│   ├── page.tsx            homepage composition
+│   ├── services/ industries/ about/
+│   ├── process/  results/  faq/  contact/     ← one page.tsx each
 │   ├── actions.ts          "use server" — quote submission
 │   ├── globals.css         ALL design tokens + signature treatments
-│   ├── icon.svg  robots.ts  sitemap.ts
+│   └── icon.svg  robots.ts  sitemap.ts
 ├── components/
-│   ├── layout/             Header (sticky+mobile nav), Footer
-│   ├── motion/             MotionProvider (LazyMotion + reduced-motion)
-│   ├── seo/                JsonLd
-│   ├── sections/           13 homepage sections, one file each
-│   └── ui/                 Button Chip Container Counter Logo
+│   ├── layout/             Header (sticky+mobile nav), Footer, PageHero
+│   ├── motion/             MotionProvider (LazyMotion), ScrollProgress
+│   ├── seo/                JsonLd, BreadcrumbSchema
+│   ├── sections/           13 reusable sections, one file each
+│   └── ui/                 Button Chip Container Counter BrandLogo DrawRule
 │                           Reveal Section SectionHeading Accordion
-├── content/                site · services · industries · process · proof
+├── content/                brand · site · services · industries · process · proof
 └── lib/                    cn · stagger · quote
 ```
+
+Sections are **composable across routes**, not homepage-bound. Each takes an
+optional `index` prop because the measure-rail number describes position within
+the *current* page — a hard-coded value would lie on every page but the
+homepage.
 
 **Content is fully separated from presentation.** Every service, industry, FAQ,
 stat and testimonial lives in `src/content/*.ts`. The business can edit copy,
@@ -391,6 +443,55 @@ dropdown and the FAQ schema all regenerate from those same arrays.
 
 ---
 
+## 5b. Routing architecture
+
+Every navigation item resolves to its own page rather than an on-page anchor.
+
+| Route | Composition | Priority |
+|---|---|---|
+| `/` | Overview — hero → logos → stats → previews → CTA | 1.0 |
+| `/services` | Services + Process + CTA | 0.9 |
+| `/contact` | Quote form + certifications (no CTA banner) | 0.9 |
+| `/industries` | Industries + certifications + CTA | 0.8 |
+| `/about` | Stats + why-us + certifications + logos + CTA | 0.7 |
+| `/process` | Process timeline + FAQ + CTA | 0.7 |
+| `/results` | Before/after + testimonials + stats + CTA | 0.7 |
+| `/faq` | FAQ + certifications + CTA | 0.6 |
+
+**Beyond the stakeholder requirement, this is the right call for lead gen.**
+Each route gets its own title, meta description, canonical and H1, so
+"commercial cleaning services" and "medical facility cleaning" can rank
+independently instead of competing for a single homepage listing. Anchors also
+produce no pageviews — dedicated routes give analytics real per-section data on
+which content actually drives quote requests.
+
+**Implementation decisions**
+
+- `ROUTES` in `content/site.ts` is the single source of truth. It drives the
+  header, mobile panel, footer and sitemap — nothing is hand-listed, so adding
+  a page cannot leave a stale link behind.
+- **Header and Footer moved into `layout.tsx`.** They now persist across
+  navigations; Next re-renders only the page slot, which is what makes route
+  changes feel instant rather than like a reload.
+- **`template.tsx`, not `layout.tsx`, carries the page transition.** A layout
+  instance persists, so its children never re-mount and the enter animation
+  would fire exactly once. A template re-mounts per navigation.
+- **The FAQ and contact form were removed from the homepage.** Both now have
+  routes, and duplicating long-form content across URLs creates self-competing
+  pages.
+- **Every preview section is followed by a link to its full route.** Without
+  those, sub-pages would be reachable only from the nav — the classic failure
+  of splitting a long homepage, where the new pages get no internal link equity
+  and no in-context entry point.
+- **`FAQPage` schema moved to `/faq` only.** Google requires FAQ markup to sit
+  on the page whose visible content it describes; leaving it in the shared
+  layout would have declared an FAQPage on every route.
+- **`BreadcrumbList` on every sub-page**, fed the same array `PageHero`
+  renders, so markup and screen can never disagree.
+- The mobile panel **closes on route change** via `usePathname` — a click
+  handler alone misses back/forward navigation, the most common bug in
+  client-routed mobile nav.
+
 ## 6. Responsive behaviour
 
 Mobile-first, verified at **320 / 360 / 390 / 414 / 768 / 1024 / 1280 / 1440 /
@@ -424,6 +525,12 @@ auto track floors at **min-content**, so one `truncate`d child (which sets
 
 | Effect | Implementation | Timing |
 |---|---|---|
+| **Page transition** | `template.tsx`, opacity + 8px rise | 420ms expo-out, per navigation |
+| **Scroll progress rail** | `useScroll` → spring → `scaleX` | 2px gradient bar, compositor-only |
+| **Measure-rule draw** | `DrawRule`, `whileInView` `scaleY` | 600ms, once per section |
+| **Accent-word shimmer** | CSS `background-position`, `background-clip: text` | 1.5s, **runs once** |
+| **Primary CTA sheen** | `.sweep` pseudo-element | 1.1s on hover |
+| **Nav underline** | `scaleX` from centre; persists when active | 300ms |
 | Scroll reveal | `Reveal`, `whileInView` `once` | 650ms expo-out, 14px travel |
 | Card stagger | `stagger(i, 0.07)` | capped at 420ms total |
 | Number counters | `animate()` → `textContent` | 1.6s, fires at 50% in view |
@@ -439,6 +546,14 @@ auto track floors at **min-content**, so one `truncate`d child (which sets
 
 - `once: true` everywhere. Re-animating on every scroll-past reads as cheap and
   punishes re-reading.
+- **The page transition is only 420ms with no delay.** Now that every nav item
+  is a real route, this runs on every single click — anything longer becomes a
+  tax the user pays repeatedly.
+- **The accent-word shimmer runs once, not on a loop.** A permanently
+  shimmering headline is a distraction the reader cannot dismiss, and it
+  repaints that element forever.
+- The scroll rail animates `scaleX`, never `width` — width would cost a layout
+  pass every frame of every scroll.
 - **14px of travel, never more.** Long entrances hurt perceived stability.
 - Reveals fire *slightly before* centre, so motion has resolved by the time the
   eye arrives. Animation the user waits on reads as slowness, not polish.
@@ -560,12 +675,12 @@ Measured against the local production build (`next build && next start`):
 
 | Metric | Result |
 |---|---|
-| Build output | **Fully static prerender** — all 5 routes `○ (Static)` |
+| Build output | **Fully static prerender** — all 8 pages + 3 metadata routes `○ (Static)` |
 | **CLS** | **0** |
 | FCP | 240ms (local, unthrottled) |
 | HTML (gzip) | 43 KB |
 | CSS (gzip) | ~8 KB, single file |
-| JS (gzip) | **209 KB** across 8 chunks |
+| JS + CSS (gzip) | **213 KB** — only +4 KB after adding routing, page transitions, the scroll rail and breadcrumbs |
 | Fonts | 3 self-hosted woff2, `display: swap`, preloaded |
 | Requests | 13 total |
 
@@ -607,7 +722,17 @@ environment — so the 95+ target is engineered for, not verified. Verify with
 
 Automated against the production build in headless Chromium:
 
-- **Layout** — zero horizontal overflow at 9 viewport widths (320→1920).
+- **Routing** — all 8 routes return 200 with exactly one `<h1>`, a unique
+  `<title>`, a correct self-referencing canonical, and `BreadcrumbList` schema
+  on every sub-page. `FAQPage` appears on `/faq` and nowhere else. The sitemap
+  lists all 8.
+- **Navigation** — nav click routes client-side, `aria-current="page"` lands on
+  the active link, the header persists (no full reload), the header CTA reaches
+  `/contact`, and no JS errors fire during navigation.
+- **Mobile nav** — opens, routes, **closes on navigation**, and releases the
+  body scroll lock.
+- **Layout** — zero horizontal overflow across all 8 routes × 5 viewport
+  widths (320 → 1920).
 - **Forms** — empty submit produces the error banner, 5 `aria-invalid` fields
   and correct `aria-describedby` wiring; valid submit produces the success
   state; no JS errors through the flow.
@@ -636,20 +761,26 @@ procurement-disqualifying — and actionable under FTC endorsement rules.
 
 Required before launch:
 
-1. Replace every `PLACEHOLDER` value: NAP, geo coordinates, service areas,
+1. **Add the official ServiceMaster Clean logo.** Download the approved artwork
+   from the franchisor's brand portal into `public/brand/` and set
+   `hasOfficialAssets: true` in `content/brand.ts`. Full instructions in
+   `public/brand/README.md`. The site currently shows a typographic placeholder.
+2. **Verify the brand palette** against the brand book and re-run the contrast
+   check. The green ramp in `globals.css` is an unverified approximation.
+3. Replace every `PLACEHOLDER` value: NAP, geo coordinates, service areas,
    statistics, client logos, testimonials (with written consent), certifications
    (only credentials currently held, with live expiry dates).
-2. **Wire up lead delivery.** `app/actions.ts` validates but does **not** yet
+4. **Wire up lead delivery.** `app/actions.ts` validates but does **not** yet
    send anywhere — the `TODO(launch)` block is marked. Shipping as-is silently
    drops every enquiry.
-3. Replace the before/after SVGs with real photography from the same camera
+5. Replace the before/after SVGs with real photography from the same camera
    position (the component takes image props; the caption currently reads
    "Illustrative render" and must be updated).
-4. Replace the logo if operating under a **ServiceMaster franchise licence** —
-   the mark here is original, and franchise agreements almost always require
-   franchisor-supplied brand assets.
-5. Add a privacy policy and link it from the form.
-6. Run Lighthouse against the deployed URL; validate schema in Google's Rich
+6. Confirm the required franchise disclosure wording and legal entity name in
+   your franchise agreement, then set `franchiseDescriptor` in
+   `content/brand.ts` to match.
+7. Add a privacy policy and link it from the form.
+8. Run Lighthouse against the deployed URL; validate schema in Google's Rich
    Results Test.
 
 ---

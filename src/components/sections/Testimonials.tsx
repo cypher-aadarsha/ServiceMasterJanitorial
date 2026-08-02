@@ -50,12 +50,18 @@ import { TESTIMONIALS } from "@/content/proof";
  * `aria-hidden` — otherwise screen readers announce a stray punctuation mark
  * before every quote.
  */
-export function Testimonials() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function Testimonials({ index = "06" }: { index?: string } = {}) {
   return (
     <Section id="testimonials" tone="mist" labelledBy="testimonials-heading">
       <Container size="wide">
         <SectionHeading
-          index="06"
+          index={index}
           eyebrow="Client outcomes"
           id="testimonials-heading"
           align="center"

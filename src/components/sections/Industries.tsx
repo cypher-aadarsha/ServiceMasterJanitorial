@@ -46,12 +46,18 @@ import { INDUSTRIES } from "@/content/industries";
  * transitions opacity/position, so keyboard and screen-reader users receive
  * the same information. Nothing here depends on hover to be perceivable.
  */
-export function Industries() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function Industries({ index = "02" }: { index?: string } = {}) {
   return (
     <Section id="industries" tone="mist" labelledBy="industries-heading">
       <Container size="wide">
         <SectionHeading
-          index="02"
+          index={index}
           eyebrow="Industry expertise"
           id="industries-heading"
           align="center"

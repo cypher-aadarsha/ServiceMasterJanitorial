@@ -60,7 +60,13 @@ import { cn } from "@/lib/cn";
  * hidden. Active state is conveyed by opacity *and* by the filled node marker,
  * never by colour alone.
  */
-export function ProcessTimeline() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function ProcessTimeline({ index = "04" }: { index?: string } = {}) {
   const trackRef = useRef<HTMLOListElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -83,7 +89,7 @@ export function ProcessTimeline() {
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
               <SectionHeading
-                index="04"
+                index={index}
                 eyebrow="How it works"
                 id="process-heading"
                 tone="dark"

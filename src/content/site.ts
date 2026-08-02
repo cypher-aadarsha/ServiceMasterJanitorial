@@ -59,12 +59,40 @@ export const SITE = {
   },
 } as const;
 
+/**
+ * ROUTES — the single source of truth for the site's URL structure.
+ *
+ * Every navigation item resolves to its own page rather than an on-page
+ * anchor. Beyond the stakeholder requirement, dedicated routes are the right
+ * call for a lead-generation site: each one gets its own title, meta
+ * description, canonical URL and H1, so "commercial cleaning services" and
+ * "medical facility cleaning" can rank independently instead of competing for
+ * a single homepage listing. They also give analytics real per-section
+ * pageviews, which anchors never produce.
+ *
+ * Adding a route here automatically updates the header, the mobile panel, the
+ * footer and the sitemap — nothing is hand-listed anywhere else.
+ */
+export const ROUTES = {
+  home: "/",
+  services: "/services",
+  industries: "/industries",
+  about: "/about",
+  process: "/process",
+  results: "/results",
+  faq: "/faq",
+  contact: "/contact",
+} as const;
+
 /** Primary navigation. Kept flat and short — a facility manager evaluating
- *  vendors should never need to hunt through a mega-menu. */
+ *  vendors should never need to hunt through a mega-menu. Contact is excluded
+ *  because it is already the header's CTA button; listing it twice splits the
+ *  click and weakens the primary action. */
 export const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Industries", href: "#industries" },
-  { label: "Process", href: "#process" },
-  { label: "Results", href: "#results" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Services", href: ROUTES.services },
+  { label: "Industries", href: ROUTES.industries },
+  { label: "About", href: ROUTES.about },
+  { label: "Process", href: ROUTES.process },
+  { label: "Results", href: ROUTES.results },
+  { label: "FAQ", href: ROUTES.faq },
 ] as const;

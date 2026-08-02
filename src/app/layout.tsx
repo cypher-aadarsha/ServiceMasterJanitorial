@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora, JetBrains_Mono } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
@@ -140,7 +143,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
 
-        <MotionProvider>{children}</MotionProvider>
+        {/* Header and Footer live in the layout, not in each page, so they
+            persist across client-side navigations. Next re-renders only the
+            page slot, which is what makes route changes feel instant instead
+            of like a full reload. */}
+        <MotionProvider>
+          <ScrollProgress />
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+        </MotionProvider>
 
         <JsonLd />
       </body>

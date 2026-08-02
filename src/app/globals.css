@@ -10,50 +10,78 @@
    this block and nothing else.
    ========================================================================== */
 @theme {
-  /* --- Brand blue -------------------------------------------------------
-     A 217° corporate blue ramp. 600 is the interactive anchor: 6.70:1 on
-     white, so it clears WCAG AA as both link text and button fill. */
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dae6ff;
-  --color-brand-200: #bdd3ff;
-  --color-brand-300: #90b6ff;
-  --color-brand-400: #5b8fff;
-  --color-brand-500: #3568f4;
-  --color-brand-600: #1d4ed8;
-  --color-brand-700: #1a3fb0;
-  --color-brand-800: #1b368d;
-  --color-brand-900: #1c3271;
-  --color-brand-950: #101f4a;
+  /* ======================================================================
+     BRAND — ServiceMaster Clean franchise palette
+     ----------------------------------------------------------------------
+     ⚠️  VERIFY AGAINST THE FRANCHISOR BRAND BOOK BEFORE LAUNCH.
+     ServiceMaster Clean is a green-led brand, and this ramp is built around
+     that. The exact hex values below could NOT be verified against an
+     official source — servicemasterclean.com and Brandfetch both refuse
+     automated requests — so they are a carefully-built approximation, not
+     the authoritative palette.
 
-  /* --- Ink: deep navy surfaces + primary type ---------------------------
-     Never pure black. Carrying a little blue into the darks keeps dark
+     Replacing them is a paste job: change `--color-brand-600` and its
+     neighbours here and the entire site re-skins, because no component
+     hard-codes a colour. If the brand book gives Pantone/CMYK only, convert
+     to sRGB hex and RE-RUN THE CONTRAST CHECK — a brand green that looks
+     right on print stock frequently fails WCAG on white.
+
+     `600` is the interactive anchor: 5.36:1 on white, clearing AA as both
+     link text and button fill.
+     ====================================================================== */
+  --color-brand-50: #effaf3;
+  --color-brand-100: #d6f2e1;
+  --color-brand-200: #afe5c7;
+  --color-brand-300: #7bd1a5;
+  --color-brand-400: #43b67f;
+  --color-brand-500: #1e9a63;
+  --color-brand-600: #137a4e;
+  --color-brand-700: #106340;
+  --color-brand-800: #0e4f34;
+  --color-brand-900: #0c412c;
+  --color-brand-950: #05241a;
+
+  /* --- Ink: deep surfaces + primary type --------------------------------
+     Never pure black. Carrying the brand hue into the darks keeps dark
      sections related to the brand instead of reading as a separate theme. */
-  --color-ink-950: #08142b;
-  --color-ink-900: #0e1e3d;
-  --color-ink-800: #16294f;
+  --color-ink-950: #071a13;
+  --color-ink-900: #0d2a1f;
+  --color-ink-800: #143728;
 
-  /* --- Mist: cool neutral ramp (the "Light Gray" accent) ---------------- */
-  --color-mist-50: #f7f9fc;
-  --color-mist-100: #eff3f8;
-  --color-mist-200: #e2e8f0;
-  --color-mist-300: #cbd5e1;
-  --color-mist-400: #94a3b8;
-  --color-mist-500: #64748b;
-  --color-mist-600: #475569;
-  --color-mist-700: #334155;
-  --color-mist-800: #1e293b;
-  --color-mist-900: #0f172a;
+  /* --- Mist: neutral ramp (the "light gray" accent) ---------------------
+     Very slightly green-cast so greys sit beside the brand without going
+     cold. Pure blue-grey next to a green brand reads as two systems. */
+  --color-mist-50: #f7f9f8;
+  --color-mist-100: #eef2f0;
+  --color-mist-200: #e1e7e4;
+  --color-mist-300: #c9d2ce;
+  --color-mist-400: #93a19b;
+  --color-mist-500: #64756e;
+  --color-mist-600: #465651;
+  --color-mist-700: #33403c;
+  --color-mist-800: #1e2825;
+  --color-mist-900: #0f1614;
 
-  /* --- Signal: emerald, reserved exclusively for verified/success --------
-     success-700 (5.48:1 on white) is the ONLY tint allowed for success
-     *text*. 500/600 are for non-text indicators — dots, rules, icon fills —
-     where the 3:1 non-text threshold applies. Never swap them. */
-  --color-signal-50: #ecfdf5;
-  --color-signal-300: #6ee7b7;
-  --color-signal-400: #34d399;
-  --color-signal-500: #10b981;
-  --color-signal-600: #059669;
-  --color-signal-700: #047857;
+  /* --- Signal: verification states --------------------------------------
+     DESIGN NOTE — this deliberately changed with the rebrand. Under the old
+     blue identity, emerald was a second hue that meant "verified". In a
+     green-led brand that separation collapses: two different greens read as
+     an inconsistency, not a semantic.
+
+     So `signal` is now the brand green, and verification is expressed
+     through FORM instead of hue — a check glyph in a tinted pill. The token
+     name is kept because the meaning is still worth naming at call sites,
+     and because green already carries "verified" universally.
+
+     `signal-700` is the only tint allowed for verification *text* (7.29:1).
+     `400`/`500` are for non-text marks — dots, rules, icon fills — where the
+     3:1 threshold applies. Never swap them. */
+  --color-signal-50: #effaf3;
+  --color-signal-300: #7bd1a5;
+  --color-signal-400: #43b67f;
+  --color-signal-500: #1e9a63;
+  --color-signal-600: #137a4e;
+  --color-signal-700: #106340;
 
   /* --- Typography -------------------------------------------------------
      Three roles, deliberately: Sora engineers the headlines, Inter carries
@@ -88,10 +116,10 @@
   /* --- Elevation --------------------------------------------------------
      Two-part shadows (tight contact + wide ambient) tinted with ink rather
      than black, so cards feel lit rather than dirty. */
-  --shadow-soft: 0 1px 2px rgb(8 20 43 / 0.04), 0 4px 12px rgb(8 20 43 / 0.05);
-  --shadow-card: 0 1px 3px rgb(8 20 43 / 0.04), 0 8px 24px -6px rgb(8 20 43 / 0.08);
-  --shadow-lift: 0 2px 6px rgb(8 20 43 / 0.05), 0 18px 40px -12px rgb(8 20 43 / 0.16);
-  --shadow-brand: 0 10px 30px -8px rgb(29 78 216 / 0.38);
+  --shadow-soft: 0 1px 2px rgb(7 26 19 / 0.04), 0 4px 12px rgb(7 26 19 / 0.05);
+  --shadow-card: 0 1px 3px rgb(7 26 19 / 0.04), 0 8px 24px -6px rgb(7 26 19 / 0.08);
+  --shadow-lift: 0 2px 6px rgb(7 26 19 / 0.05), 0 18px 40px -12px rgb(7 26 19 / 0.16);
+  --shadow-brand: 0 10px 30px -8px rgb(19 122 78 / 0.38);
 
   /* --- Motion -----------------------------------------------------------
      Expo-out is the house curve: fast departure, long settle. It reads as
@@ -127,6 +155,15 @@
 @keyframes sheen {
   from { transform: translate3d(-120%, 0, 0) skewX(-18deg); }
   to { transform: translate3d(320%, 0, 0) skewX(-18deg); }
+}
+
+/* One-shot highlight sweep across the hero's accent word. Deliberately NOT an
+   infinite loop: a permanently shimmering headline is a distraction the reader
+   cannot dismiss, and it repaints that element forever. Running once, shortly
+   after load, reads as a finishing touch instead. */
+@keyframes shimmer-once {
+  from { background-position: 200% center; }
+  to { background-position: -60% center; }
 }
 
 /* ==========================================================================
@@ -210,8 +247,8 @@
         facility floor plan the buyer already works from. */
   .bg-blueprint {
     background-image:
-      linear-gradient(to right, rgb(8 20 43 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(8 20 43 / 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgb(7 26 19 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(7 26 19 / 0.045) 1px, transparent 1px);
     background-size: 64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 78%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 78%);
@@ -219,8 +256,8 @@
 
   .bg-blueprint-dark {
     background-image:
-      linear-gradient(to right, rgb(144 182 255 / 0.09) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(144 182 255 / 0.09) 1px, transparent 1px);
+      linear-gradient(to right, rgb(123 209 165 / 0.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(123 209 165 / 0.09) 1px, transparent 1px);
     background-size: 64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 30%, #000 20%, transparent 75%);
     mask-image: radial-gradient(ellipse 75% 70% at 50% 30%, #000 20%, transparent 75%);
@@ -266,9 +303,9 @@
     background: linear-gradient(
       100deg,
       transparent 0%,
-      rgb(144 182 255 / 0.12) 45%,
-      rgb(190 215 255 / 0.28) 50%,
-      rgb(144 182 255 / 0.12) 55%,
+      rgb(123 209 165 / 0.12) 45%,
+      rgb(175 229 199 / 0.28) 50%,
+      rgb(123 209 165 / 0.12) 55%,
       transparent 100%
     );
   }
@@ -301,7 +338,7 @@
   }
 
   .glass-dark {
-    background-color: rgb(8 20 43 / 0.55);
+    background-color: rgb(7 26 19 / 0.55);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
   }
@@ -310,7 +347,32 @@
      leaving unreadable text over a busy background. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .glass { background-color: rgb(255 255 255 / 0.97); }
-    .glass-dark { background-color: rgb(8 20 43 / 0.94); }
+    .glass-dark { background-color: rgb(7 26 19 / 0.94); }
+  }
+
+  /* Hero accent word: a brand gradient with a single light pass over it.
+     `background-clip: text` means the animation repaints only these few
+     glyphs, and it runs exactly once — see the keyframe note above. */
+  .accent-word {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-brand-700) 0%,
+      var(--color-brand-600) 30%,
+      var(--color-brand-400) 46%,
+      var(--color-brand-600) 62%,
+      var(--color-brand-800) 100%
+    );
+    background-size: 220% auto;
+    background-position: -60% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .accent-word {
+      animation: shimmer-once 1.5s var(--ease-out-quint) 0.45s 1 both;
+    }
   }
 
   /* Edge-fade for horizontally scrolling rails and the logo marquee. */

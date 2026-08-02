@@ -56,7 +56,13 @@ import { SITE } from "@/content/site";
  * `<h3>`s inside the section's `<h2>`, so the heading outline stays valid and
  * screen-reader users can jump between questions by heading navigation.
  */
-export function Faq() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function Faq({ index = "07" }: { index?: string } = {}) {
   return (
     <Section id="faq" tone="mist" labelledBy="faq-heading">
       <Container size="wide">
@@ -64,7 +70,7 @@ export function Faq() {
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
               <SectionHeading
-                index="07"
+                index={index}
                 eyebrow="Questions"
                 id="faq-heading"
                 title="The things buyers actually ask us."

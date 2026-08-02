@@ -75,7 +75,13 @@ import { cn } from "@/lib/cn";
  *    assistive tech and unreachable by keyboard — a honeypot a screen-reader
  *    user can fill in is an accessibility bug that silently blocks real leads.
  */
-export function Contact() {
+/**
+ * `index` is a prop so this section can be renumbered when it is composed
+ * onto a dedicated route alongside different siblings. The measure-rail index
+ * describes position within the CURRENT page, so a hard-coded value would lie
+ * on every page except the homepage.
+ */
+export function Contact({ index = "08" }: { index?: string } = {}) {
   const [state, formAction] = useActionState<QuoteState, FormData>(
     submitQuote,
     INITIAL_QUOTE_STATE,
@@ -88,7 +94,7 @@ export function Contact() {
           {/* ------------------------------------------------------ Form */}
           <div className="lg:col-span-7">
             <SectionHeading
-              index="08"
+              index={index}
               eyebrow="Request a walkthrough"
               id="quote-heading"
               title="Tell us about your building."
